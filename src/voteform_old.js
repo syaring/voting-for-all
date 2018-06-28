@@ -55,7 +55,6 @@ export default class VoteForm extends React.Component {
   onSubjectChange(ev, idx){
     //this.state.subjectList[idx] = ev.target.value;
     //console.log(ev);
-    console.log(ev.target)
     let arr = [...this.state.subjectList];
     // arr[idx] = ev.target.value;
     this.setState({

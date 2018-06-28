@@ -63,7 +63,7 @@ export default class App extends React.Component {
         <Route path={"/votings/:id"}
           render={props => {
             const selectedItem = _.find(this.state.voteList, {
-              id:Number(props.match.params.id)
+              id: props.match.params.id
             });
             return (
               <VoteDetails

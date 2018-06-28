@@ -1,10 +1,25 @@
 import React, { Component } from 'react';
 
 export default class VoteDetails extends React.Component {
+  constructor(props){
+    super(props);
+
+    this.state={
+      isSelect: false,
+      selectedSubject: ""
+    }
+  }
+
+  onSelectSubject(sbj){
+    this.setState({
+      selectedSubject: sbj,
+      count: true
+    });
+  }
+  
   render() {
     return (
       <div className="vote-details">
-        {console.log(this.props)}
         제목 : {this.props.voteItem.title} <br/>
         게시자 : {this.props.voteItem.uploader} <br/>
         마감일 : {this.props.voteItem.deadline} <br/>
@@ -13,8 +28,9 @@ export default class VoteDetails extends React.Component {
         {
           this.props.voteItem.details.map((item, index) => {
             return (
-              <li key={item.id} className="box">
-                {item.subject} {item.voteNum}
+              <li key={index.toString()} className="subject" onClick={this.onSelectSubject.bind(this,item.subject)}>
+                {item.subject}
+              {/* {item.voteNum} */}
               </li>
             );
         })}

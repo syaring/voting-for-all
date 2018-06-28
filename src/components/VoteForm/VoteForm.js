@@ -13,45 +13,77 @@ export default class VoteForm extends React.Component {
 
     this.state = {
       title: "",
-      uploader: "",
-      deadline: "",
-      subjectList: ["", ""]
+      name: "",
+      endDate: "",
+      subjectList: [""]
     }
   }
-  
-  onAddItem() {
+
+  onAddSubject() {
     this.setState({
       subjectList: [...this.state.subjectList, ""]
     });
   }
 
-  onSubmit(){
-    database.ref('/').set({
-      deadline: this.state.deatline,
-      details: this.state.subjectList,
-      id: '',
-      isGoing: '',
+  onSubmit() {
+    var originKey = database.ref().push().key;
+    database.ref(`/${originKey}`).set({
+      deadline: this.state.endDate,
       title: this.state.title,
-      uploader: this.state.uploader,
+      details: this.state.subjectList.map((data,idx) => {
+        return ({
+          subject: data,
+          voteNum: 0
+        })
+      }),
+      id: originKey,
+      isGoing: true,
+      uploader: this.state.name,
       voter: 0
-    }, function (err) {
-      if (err) {
-        console.log("error occured");
-      } else {
-        console.log("saved successfully");
-      }
     })
+    .then(() => {
+
+    })
+  }
+
+  onTitleChange(ev){
+    this.setState({
+      title: ev.target.value
+    });
+  }
+
+  onNameChange(ev){
+    this.setState({
+      name: ev.target.value
+    });
+  }
+
+  onDateChange(ev){
+    this.setState({
+      endDate: ev.target.value
+    });
+  }
+
+  onSubjectChange(idx, ev){
+    let arr = [...this.state.subjectList];
+    arr[idx] = ev.target.value;
+    this.setState({
+      subjectList: arr
+    });
   }
 
   render() {
     return (
-      <form action="" className="container">
+      <div className="container">
           <div className="row">
             <div className="label">
               <label>TITLE</label>
             </div>
             <div className="input-field">
-              <input type="text" name="title" placeholder="SET TITLE..." />
+              <input type="text" placeholder="SET TITLE..."
+                value={this.state.title}
+                onChange={this.onTitleChange.bind(this)}
+              />
             </div>
           </div>
           <div className="row">
@@ -59,7 +91,10 @@ export default class VoteForm extends React.Component {
               <label>NAME</label>
             </div>
             <div className="input-field">
-              <input type="text" name="uploader" placeholder="SET NAME..." />
+              <input type="text" placeholder="SET NAME..."
+                value={this.state.name}
+                onChange={this.onNameChange.bind(this)}
+              />
             </div>
           </div>
           <div className="row">
@@ -67,7 +102,10 @@ export default class VoteForm extends React.Component {
               <label>END DATE</label>
             </div>
             <div>
-              <input type="date" name="deadline"/>
+              <input type="date"
+                value={this.state.endDate}
+                onChange={this.onDateChange.bind(this)}
+              />
             </div>
           </div>
           <div className="row">
@@ -78,19 +116,23 @@ export default class VoteForm extends React.Component {
               {
                 this.state.subjectList.map((data, idx) => {
                   return (
-                    <input key={idx} type="text" name="details" placeholder="SET ITEM" />
+                    <input key={idx.toString()} type="text" placeholder="SET ITEM"
+                      onChange={this.onSubjectChange.bind(this, idx)}
+                    />
                   );
                 })
               }
             </div>
           </div>
           <div className="row">
-            <p className="add" onClick={this.onAddItem.bind(this)}>+</p>
+            <p className="add" onClick={this.onAddSubject.bind(this)}>+</p>
           </div>
           <div className="row">
-            <input type="submit" value="ENROLL"/>
+            <input type="submit" value="ENROLL"
+              onClick={this.onSubmit.bind(this)}
+            />
           </div>
-      </form>
+      </div>
     );
   }
 }
