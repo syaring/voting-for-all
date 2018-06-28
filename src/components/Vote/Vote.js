@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebaseService from '../../services/firebase.js'
-
+import { Link, Redirect } from 'react-router-dom';
 
 const database = firebaseService.database();
 
@@ -35,23 +35,25 @@ export default class VoteDetails extends React.Component {
 
 
   onVote () {
-    var item;
-    database.ref(`/${this.props.voteItem.id}`).on('value', (snapshot) => {
-      item = snapshot.val();
-    });
+    if (this.state.isSelected) {
+      let item;
+      database.ref(`/${this.props.voteItem.id}`).on('value', (snapshot) => {
+        item = snapshot.val();
+      });
 
-    var voterUpdate = item.voter + 1;
-    var voteUpdate = item.details[this.state.selectedIndex].voteNum + 1;
-   
-    database.ref(`/${this.props.voteItem.id}`).update({
-      voter: voterUpdate
-    });
+      let voterUpdate = item.voter + 1;
+      let voteUpdate = item.details[this.state.selectedIndex].voteNum + 1;
+    
+      database.ref(`/${this.props.voteItem.id}`).update({
+        voter: voterUpdate
+      });
 
-    database.ref(`/${this.props.voteItem.id}/details/${this.state.selectedIndex}`).update({
-      voteNum: voteUpdate
-    });
-
-    window.location.reload();
+      database.ref(`/${this.props.voteItem.id}/details/${this.state.selectedIndex}`).update({
+        voteNum: voteUpdate
+      }); 
+    } else {
+      window.alert('항목을 선택하세요!');
+    }
   }
 
   render() {
@@ -67,14 +69,20 @@ export default class VoteDetails extends React.Component {
             return (
               <li key={index.toString()} className="subject" onClick={this.onSelectSubject.bind(this,item.subject, index)}>
                 {item.subject}
-                {item.voteNum}
               </li>
             );
         })}
-        
-        <input type="submit" value="VOTE!"
-          onClick={this.onVote.bind(this)}
-        />
+
+        <Link to={this.state.isSelected ? '/' : '#'}>
+          <input type="submit" value="VOTE!"
+            onClick={this.onVote.bind(this)}
+          />
+        </Link>
+
+        <Link to='/'>
+         <input type="submit" value="go to List" />
+        </Link>
+
       </div>
     );
   }

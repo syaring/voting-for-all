@@ -2,7 +2,7 @@ import * as firebase from 'firebase';
 import React from 'react';
 import { Router, Route, Link, Switch } from 'react-router-dom';
 import VoteList from '../VoteList/VoteList.js';
-import VoteDetails from '../VoteDetails/VoteDetails.js'
+import VoteDetails from '../Vote/Vote.js'
 import VoteForm from '../VoteForm/VoteForm.js'
 import FAB from '../FAB/FAB.js'
 import firebaseService from '../../services/firebase.js'

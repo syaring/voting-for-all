@@ -1,12 +1,13 @@
 import React from 'react';
 import firebaseService from '../../services/firebase.js'
+import { Link } from 'react-router-dom';
+import _ from 'lodash';
 
-import './VoteForm.css'
+import './VoteForm.css';
 
 const database = firebaseService.database();
 
 export default class VoteForm extends React.Component {
-  
   constructor(props) {
     super(props);
 
@@ -14,7 +15,8 @@ export default class VoteForm extends React.Component {
       title: "",
       name: "",
       endDate: "",
-      subjectList: [""]
+      subjectList: [""],
+      isFilled: false
     }
   }
 
@@ -55,9 +57,21 @@ export default class VoteForm extends React.Component {
   }
 
   onDateChange(ev){
-    this.setState({
-      endDate: ev.target.value
-    });
+    let currentDate = new Date();
+    let _selectedDate = _.map(ev.target.value.split('-'), data=>parseInt(data));
+    let selectedDate = new Date(_selectedDate[0], _selectedDate[1], _selectedDate[2]);
+    let isFuture = (currentDate.getDate() <= selectedDate.getDate()) ? true : false ;
+
+    if (!isFuture) {
+      window.alert("미래의 날짜를 선택해 주세요!");
+      this.setState({
+        endDate: ""
+      })
+    } else {
+      this.setState({
+        endDate: ev.target.value
+      });
+    }
   }
 
   onSubjectChange(idx, ev){
@@ -124,9 +138,11 @@ export default class VoteForm extends React.Component {
             <p className="add" onClick={this.onAddSubject.bind(this)}>+</p>
           </div>
           <div className="row">
-            <input type="submit" value="ENROLL"
-              onClick={this.onSubmit.bind(this)}
+            <Link to={this.state.isFilled ? '/' : '#'}>
+              <input type="submit" value="ENROLL"
+                onClick={this.onSubmit.bind(this)}
             />
+            </Link>
           </div>
       </div>
     );
