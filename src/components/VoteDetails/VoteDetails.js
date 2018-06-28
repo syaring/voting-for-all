@@ -1,22 +1,59 @@
 import React, { Component } from 'react';
+import firebaseService from '../../services/firebase.js'
+
+
+const database = firebaseService.database();
 
 export default class VoteDetails extends React.Component {
   constructor(props){
     super(props);
 
     this.state={
-      isSelect: false,
-      selectedSubject: ""
+      isSelected: false,
+      selectedSubject: "",
+      selectedIndex: 0,
+      voteList: []
     }
   }
 
-  onSelectSubject(sbj){
-    this.setState({
-      selectedSubject: sbj,
-      count: true
-    });
+  onSelectSubject (sbj, index) {
+    if (!this.state.isSelected) {
+      this.setState ({
+        isSelected: true,
+        selectedSubject: sbj,
+        selectedIndex: index
+      });
+    } else if (sbj === this.state.selectedSubject) {
+      this.setState ({
+        isSelected: false,
+        selectedSubject: ""
+      });
+    } else {
+      window.alert('한가지만 선택할 수 있습니다!');
+    }
   }
-  
+
+
+  onVote () {
+    var item;
+    database.ref(`/${this.props.voteItem.id}`).on('value', (snapshot) => {
+      item = snapshot.val();
+    });
+
+    var voterUpdate = item.voter + 1;
+    var voteUpdate = item.details[this.state.selectedIndex].voteNum + 1;
+   
+    database.ref(`/${this.props.voteItem.id}`).update({
+      voter: voterUpdate
+    });
+
+    database.ref(`/${this.props.voteItem.id}/details/${this.state.selectedIndex}`).update({
+      voteNum: voteUpdate
+    });
+
+    window.location.reload();
+  }
+
   render() {
     return (
       <div className="vote-details">
@@ -28,12 +65,16 @@ export default class VoteDetails extends React.Component {
         {
           this.props.voteItem.details.map((item, index) => {
             return (
-              <li key={index.toString()} className="subject" onClick={this.onSelectSubject.bind(this,item.subject)}>
+              <li key={index.toString()} className="subject" onClick={this.onSelectSubject.bind(this,item.subject, index)}>
                 {item.subject}
-              {/* {item.voteNum} */}
+                {item.voteNum}
               </li>
             );
         })}
+        
+        <input type="submit" value="VOTE!"
+          onClick={this.onVote.bind(this)}
+        />
       </div>
     );
   }

@@ -1,5 +1,4 @@
 import React from 'react';
-import update from 'react-addons-update';
 import firebaseService from '../../services/firebase.js'
 
 import './VoteForm.css'
@@ -34,16 +33,13 @@ export default class VoteForm extends React.Component {
         return ({
           subject: data,
           voteNum: 0
-        })
+        });
       }),
       id: originKey,
       isGoing: true,
       uploader: this.state.name,
       voter: 0
-    })
-    .then(() => {
-
-    })
+    });
   }
 
   onTitleChange(ev){
