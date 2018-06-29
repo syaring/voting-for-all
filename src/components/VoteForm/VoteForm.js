@@ -51,11 +51,21 @@ export default class VoteForm extends React.Component {
   }
 
   onCheck() {
+    let sbjFilled = true;
+
+    for(let i in this.state.subjectList) {
+      if(!this.state.subjectList[i]){
+        sbjFilled = false;
+        break;
+      }
+    }
+    
     if (
       (this.state.title) &&
       (this.state.name) &&
       (this.state.endDate) &&
-      ((this.state.subjectList.length) >= 2)
+      ((this.state.subjectList.length) >= 2) &&
+      (sbjFilled)
     ) {
       this.setState({
         isFilled: true
