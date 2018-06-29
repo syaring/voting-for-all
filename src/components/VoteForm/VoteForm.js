@@ -59,7 +59,7 @@ export default class VoteForm extends React.Component {
         break;
       }
     }
-    
+
     if (
       (this.state.title) &&
       (this.state.name) &&
@@ -172,6 +172,10 @@ export default class VoteForm extends React.Component {
                 onMouseOver={this.onCheck.bind(this)}
                 onClick={this.onSubmit.bind(this)}
               />
+            </Link>
+
+            <Link to='/'>
+              <input type="submit" value="go to List" />
             </Link>
           </div>
       </div>

@@ -3,16 +3,3 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
-
-
-.voteItem {
-  background : #FFA0FF;
-  width: 300px;
-}
-
-/* @media screen and (max-width: 600px) {
-  .col-25, .col-75, input[type=submit] {
-    width: 100%;
-    margin-top: 0;
-  }
-} */

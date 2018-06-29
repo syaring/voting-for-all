@@ -8,6 +8,8 @@ import FAB from '../FAB/FAB.js'
 import firebaseService from '../../services/firebase.js'
 import _ from 'lodash';
 
+import './App.css';
+
 const database = firebaseService.database();
 
 export default class App extends React.Component {

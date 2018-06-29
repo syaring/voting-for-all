@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import firebaseService from '../../services/firebase.js'
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 
 import './Vote.css';
 
@@ -15,17 +16,28 @@ export default class VoteDetails extends React.Component {
       selectedSubject: "",
       selectedIndex: 0,
       voteList: []
+      // isMax: {}
     }
   }
+  componentDidMount () {
+    // let max = _.maxBy(this.props.voteItem.details, function (obj) {
+    //   return obj;
+    // });
 
-  onSelectSubject (sbj, index, ev) {
+    // this.setState=({
+    //   isMax: max
+    // });
+
+    // console.log(this.state.isMax);
+  }
+  onSelectSubject (sbj, index, ev) { 
     if (!this.state.isSelected) {
       this.setState ({
         isSelected: true,
         selectedSubject: sbj,
         selectedIndex: index
       });
-      ev.target.style.background='purple';
+      ev.target.style.background='#B000D3';
       ev.target.style.color='white';
     } else if (sbj === this.state.selectedSubject) {
       this.setState ({
@@ -102,15 +114,17 @@ export default class VoteDetails extends React.Component {
           })}
           </div>
 
-          <Link to={this.state.isSelected ? '/' : '#'}>
-            <input type="submit" value="VOTE!"
-              onClick={this.onVote.bind(this)}
-            />
-          </Link>
+          <div className="buttons">
+            <Link to={this.state.isSelected ? '/' : '#'}>
+              <input type="submit" value="VOTE!"
+                onClick={this.onVote.bind(this)}
+              />
+            </Link>
 
-          <Link to='/'>
-            <input type="submit" value="go to List" />
-          </Link>
+            <Link to='/'>
+              <input type="submit" value="go to List" />
+            </Link>
+          </div>
 
         </div>
       );
@@ -141,7 +155,7 @@ export default class VoteDetails extends React.Component {
             {this.props.voteItem.deadline}
             </div>
           </div>
-          
+
           <div className="list-container">
           {
             this.props.voteItem.details.map((item, index) => {
@@ -153,9 +167,11 @@ export default class VoteDetails extends React.Component {
           })}
           </div>
 
-          <Link to='/'>
-            <input type="submit" value="go to List" />
-          </Link>
+          <div className="buttons">
+            <Link to='/'>
+              <input type="submit" value="go to List" />
+            </Link>
+          </div>
 
         </div>
       );
