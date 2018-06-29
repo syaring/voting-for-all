@@ -12,10 +12,10 @@ export default class VoteForm extends React.Component {
     super(props);
 
     this.state = {
-      title: "",
-      name: "",
-      endDate: "",
-      subjectList: [""],
+      title: '',
+      name: '',
+      endDate: '',
+      subjectList: [''],
       isFilled: false
     }
   }
@@ -23,36 +23,6 @@ export default class VoteForm extends React.Component {
   onAddSubject() {
     this.setState({
       subjectList: [...this.state.subjectList, ""]
-    });
-  }
-
-  onSubmit() {
-    var originKey = database.ref().push().key;
-    database.ref(`/${originKey}`).set({
-      deadline: this.state.endDate,
-      title: this.state.title,
-      details: this.state.subjectList.map((data,idx) => {
-        return ({
-          subject: data,
-          voteNum: 0
-        });
-      }),
-      id: originKey,
-      isGoing: true,
-      uploader: this.state.name,
-      voter: 0
-    });
-  }
-
-  onTitleChange(ev){
-    this.setState({
-      title: ev.target.value
-    });
-  }
-
-  onNameChange(ev){
-    this.setState({
-      name: ev.target.value
     });
   }
 
@@ -74,11 +44,60 @@ export default class VoteForm extends React.Component {
     }
   }
 
+  onNameChange(ev){
+    this.setState({
+      name: ev.target.value
+    });
+  }
+
+  onCheck() {
+    if (
+      (this.state.title) &&
+      (this.state.name) &&
+      (this.state.endDate) &&
+      ((this.state.subjectList.length) >= 2)
+    ) {
+      this.setState({
+        isFilled: true
+      });
+    }
+  }
+
+  onSubmit() {
+    if (this.state.subjectList.length < 2) {
+      window.alert('항목을 두개 이상 설정해 주세요');
+    } else if (this.state.isFilled) {
+      var originKey = database.ref().push().key;
+      database.ref(`/${originKey}`).set({
+        deadline: this.state.endDate,
+        title: this.state.title,
+        details: this.state.subjectList.map((data,idx) => {
+          return ({
+            subject: data,
+            voteNum: 0
+          });
+        }),
+        id: originKey,
+        isGoing: true,
+        uploader: this.state.name,
+        voter: 0
+      });
+    } else {
+      window.alert('모든 항목을 입력해 주세요');
+    }
+  }
+
   onSubjectChange(idx, ev){
     let arr = [...this.state.subjectList];
     arr[idx] = ev.target.value;
     this.setState({
       subjectList: arr
+    });
+  }
+
+  onTitleChange(ev){
+    this.setState({
+      title: ev.target.value
     });
   }
 
@@ -140,8 +159,9 @@ export default class VoteForm extends React.Component {
           <div className="row">
             <Link to={this.state.isFilled ? '/' : '#'}>
               <input type="submit" value="ENROLL"
+                onMouseOver={this.onCheck.bind(this)}
                 onClick={this.onSubmit.bind(this)}
-            />
+              />
             </Link>
           </div>
       </div>
