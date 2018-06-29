@@ -4,7 +4,7 @@ import './FAB.css';
 export default class FAB extends React.Component {
   render() {
     return (
-      <p className="fab">NEW</p>
+      <input type="button" value="NEW" className="fab" />
     );
   }
 }

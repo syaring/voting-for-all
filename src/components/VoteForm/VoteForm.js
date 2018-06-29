@@ -154,7 +154,7 @@ export default class VoteForm extends React.Component {
             </div>
           </div>
           <div className="row">
-            <p className="add" onClick={this.onAddSubject.bind(this)}>+</p>
+            <input className="add" type="button" value="+" onClick={this.onAddSubject.bind(this)}/>
           </div>
           <div className="row">
             <Link to={this.state.isFilled ? '/' : '#'}>

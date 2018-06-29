@@ -1,0 +1,56 @@
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #C02DC0;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+.vote-container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.label {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.value {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+  padding: 12px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.list-container {
+  clear: both;
+  text-align: center;
+}
+
+.subject {
+  list-style-type: none;
+  margin: 20px;
+}
+
+li.isGoing:hover {
+  background-color: #7C047C;
+  color: white;
+}

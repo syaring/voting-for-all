@@ -63,12 +63,13 @@ input[type=submit] {
 	width: 30px;
 	height: 30px;
 	bottom: 30px;
-	right: 30px;
+  right: 30px;
+  margin: 10px;
 	background-color: #C02DC0;
 	color: #FFF;
   border-radius: 50px;
   text-align: center;
-  align-items: center;
+  line-height: 20px;
   box-shadow: 2px 2px 3px #999;
 }
 
