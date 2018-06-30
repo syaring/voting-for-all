@@ -15,24 +15,23 @@ export default class VoteDetails extends React.Component {
       isSelected: false,
       selectedSubject: "",
       selectedIndex: 0,
-      voteList: []
-      // isMax: {}
+      voteList: [],
+      isMax: {}
     }
   }
   componentDidMount () {
-    // let max = _.maxBy(this.props.voteItem.details, function (obj) {
-    //   return obj;
-    // });
+    let max = _.maxBy(this.props.voteItem.details, function(obj){
+      return obj.voteNum;
+    });
 
-    // this.setState=({
-    //   isMax: max
-    // });
-
-    // console.log(this.state.isMax);
+    this.setState({
+      isMax: max
+    });
   }
+
   onSelectSubject (sbj, index, ev) { 
     if (!this.state.isSelected) {
-      this.setState ({
+      this.setState({
         isSelected: true,
         selectedSubject: sbj,
         selectedIndex: index
@@ -40,7 +39,7 @@ export default class VoteDetails extends React.Component {
       ev.target.style.background='#B000D3';
       ev.target.style.color='white';
     } else if (sbj === this.state.selectedSubject) {
-      this.setState ({
+      this.setState({
         isSelected: false,
         selectedSubject: ""
       });
@@ -159,11 +158,19 @@ export default class VoteDetails extends React.Component {
           <div className="list-container">
           {
             this.props.voteItem.details.map((item, index) => {
-              return (
-                <li key={index.toString()} className="subject">
-                  {item.subject} | {item.voteNum}/{this.props.voteItem.voter}
-                </li>
-              );
+              if(item === this.state.isMax){
+                return (
+                  <li key={index.toString()} className="subject max">
+                    {item.subject} | {item.voteNum}/{this.props.voteItem.voter}
+                  </li>
+                );
+              } else{
+                return (
+                  <li key={index.toString()} className="subject">
+                    {item.subject} | {item.voteNum}/{this.props.voteItem.voter}
+                  </li>
+                );
+              }
           })}
           </div>
 

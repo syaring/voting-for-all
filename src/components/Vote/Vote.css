@@ -60,3 +60,8 @@ li.isGoing:hover {
   background-color: #B000D3;
   color: white;
 }
+
+.max {
+  color: #B000D3;
+  font-weight: bold;
+}
