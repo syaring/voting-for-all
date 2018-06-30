@@ -27,10 +27,12 @@ export default class VoteForm extends React.Component {
   }
 
   onDateChange(ev){
-    let currentDate = new Date();
+    let today = new Date();
+    let currentDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     let _selectedDate = _.map(ev.target.value.split('-'), data=>parseInt(data));
-    let selectedDate = new Date(_selectedDate[0], _selectedDate[1], _selectedDate[2]);
-    let isFuture = (currentDate.getDate() <= selectedDate.getDate()) ? true : false ;
+    let selectedDate = new Date(_selectedDate[0], _selectedDate[1]-1, _selectedDate[2]);
+    
+    let isFuture = (currentDate <= selectedDate) ? true : false ;
 
     if (!isFuture) {
       window.alert("미래의 날짜를 선택해 주세요!");

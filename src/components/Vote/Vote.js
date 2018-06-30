@@ -108,7 +108,7 @@ export default class VoteDetails extends React.Component {
             this.props.voteItem.details.map((item, index) => {
               return (
                 <li key={index.toString()} className="subject isGoing" onClick={this.onSelectSubject.bind(this, item.subject, index)}>
-                  {item.subject}
+                  {item.subject} (현재 {item.voteNum}/{this.props.voteItem.voter})
                 </li>
               );
           })}
