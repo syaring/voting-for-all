@@ -1,16 +1,13 @@
-import * as firebase from 'firebase';
 import React from 'react';
 import { Router, Route, Link, Switch } from 'react-router-dom';
 import VoteList from '../VoteList/VoteList.js';
 import VoteDetails from '../Vote/Vote.js'
 import VoteForm from '../VoteForm/VoteForm.js'
 import FAB from '../FAB/FAB.js'
-import firebaseService from '../../services/firebase.js'
 import _ from 'lodash';
 
 import './App.css';
 
-const database = firebaseService.database();
 
 export default class App extends React.Component {
   constructor(props) {
@@ -19,16 +16,6 @@ export default class App extends React.Component {
     this.state = {
       voteList: []
     }
-  }
-
-  componentDidMount() {
-    var collection;
-    database.ref('/').on('value', (snapshot) => {
-      collection = snapshot.val();
-      this.setState({
-        voteList: _.map(collection, data => data)
-      });
-    });
   }
 
   updateSelectedItem(idx){
@@ -61,7 +48,7 @@ export default class App extends React.Component {
             )
           }}
         />
-        
+
         <Route path={"/votings/:id"}
           render={props => {
             const selectedItem = _.find(this.state.voteList, {
@@ -84,7 +71,7 @@ export default class App extends React.Component {
               </Link>
             )}}
         />
-       
+
       </div>
     );
   }

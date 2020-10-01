@@ -1,11 +1,8 @@
 import React from 'react';
-import firebaseService from '../../services/firebase.js'
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-
 import './VoteForm.css';
 
-const database = firebaseService.database();
 
 export default class VoteForm extends React.Component {
   constructor(props) {
@@ -31,7 +28,7 @@ export default class VoteForm extends React.Component {
     let currentDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     let _selectedDate = _.map(ev.target.value.split('-'), data=>parseInt(data));
     let selectedDate = new Date(_selectedDate[0], _selectedDate[1]-1, _selectedDate[2]);
-    
+
     let isFuture = (currentDate <= selectedDate) ? true : false ;
 
     if (!isFuture) {
@@ -78,22 +75,6 @@ export default class VoteForm extends React.Component {
   onSubmit() {
     if (this.state.subjectList.length < 2) {
       window.alert('항목을 두개 이상 설정해 주세요');
-    } else if (this.state.isFilled) {
-      var originKey = database.ref().push().key;
-      database.ref(`/${originKey}`).set({
-        deadline: this.state.endDate,
-        title: this.state.title,
-        details: this.state.subjectList.map((data,idx) => {
-          return ({
-            subject: data,
-            voteNum: 0
-          });
-        }),
-        id: originKey,
-        isGoing: true,
-        uploader: this.state.name,
-        voter: 0
-      });
     } else {
       window.alert('모든 항목을 입력해 주세요');
     }
