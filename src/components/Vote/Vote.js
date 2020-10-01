@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import firebaseService from '../../services/firebase.js'
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
 import './Vote.css';
-
-const database = firebaseService.database();
 
 export default class VoteDetails extends React.Component {
   constructor(props){
@@ -29,7 +26,7 @@ export default class VoteDetails extends React.Component {
     });
   }
 
-  onSelectSubject (sbj, index, ev) { 
+  onSelectSubject (sbj, index, ev) {
     if (!this.state.isSelected) {
       this.setState({
         isSelected: true,
@@ -51,25 +48,6 @@ export default class VoteDetails extends React.Component {
   }
 
   onVote () {
-    if (this.state.isSelected) {
-      let item;
-      database.ref(`/${this.props.voteItem.id}`).on('value', (snapshot) => {
-        item = snapshot.val();
-      });
-
-      let voterUpdate = item.voter + 1;
-      let voteUpdate = item.details[this.state.selectedIndex].voteNum + 1;
-    
-      database.ref(`/${this.props.voteItem.id}`).update({
-        voter: voterUpdate
-      });
-
-      database.ref(`/${this.props.voteItem.id}/details/${this.state.selectedIndex}`).update({
-        voteNum: voteUpdate
-      }); 
-    } else {
-      window.alert('항목을 선택하세요!');
-    }
   }
 
   render() {

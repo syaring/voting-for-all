@@ -1,13 +1,11 @@
 import React from 'react';
 import update from 'react-addons-update';
-import firebaseService from '../../services/firebase.js'
 
 import './VoteForm.css'
 
-const database = firebaseService.database();
 
 export default class VoteForm extends React.Component {
-  
+
   constructor(props) {
     super(props);
 
@@ -23,15 +21,6 @@ export default class VoteForm extends React.Component {
     this.setState({
       subjectList: [...this.state.subjectList, ""]
     });
-  }
-
-  onSubmit() {
-    database.ref('/').set({
-
-    })
-    .then(() => {
-
-    })
   }
 
   onTitleChange(ev){
