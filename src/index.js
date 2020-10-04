@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import App from './components/App/App.jsx';
+import { BrowserRouter as Router, } from 'react-router-dom';
+import App from './components/App/App';
 
 import './index.css';
+
 ReactDOM.render(
-  <BrowserRouter>
-    <App title="VOTE for ALL by SYARING"/>
-  </BrowserRouter>,
-  document.getElementById('root')
+  <Router>
+    <App title="Vote for All by SYARING" />
+  </Router>,
+  document.getElementById('root'),
 );
